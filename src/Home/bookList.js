@@ -3,11 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../Redux/booksActions";
 import NavBar from "../Navbar/navbar";
 import "./booklist.css";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
 
 const BookList = () => {
   const books = useSelector((state) => state.books);
   const [searchTerm, setSearchTerm] = useState("");
   const [bookDetails, setBookDetails] = useState('');
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   const filteredBooks = books.filter((book) =>
@@ -24,17 +33,44 @@ const BookList = () => {
 
   const handleBookDetails = (book) => {
     setBookDetails(book.details)
+    // setOpen(true);
   }
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 
   return (
     <>
       {/* <NavBar /> */}
       <div>
-        {/* {bookDetails} */}
-        
+        {bookDetails}
 
 
-      </div>
+        {/* <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              {bookDetails}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog> */}
+
+
+      </div >
 
 
 
@@ -55,6 +91,9 @@ const BookList = () => {
               <p className="card-author">Author: {book.authorName}</p>
               <p className="card-price">Price: {book.price}</p>
               <img height="300px" src={book.image} alt={book.name} />
+              {/* <Button variant="outlined" onClick={handleBookDetails}>
+                View Details
+              </Button> */}
               <button className="card-button"
                 onClick={() => handleBookDetails(book)}
               >
